@@ -15,6 +15,8 @@ bot = commands.Bot(command_prefix='>', help_command=None, intents=intents, case_
 
 # Definition Cogs
 initial_cogs = [
+    "jishaku",
+    "Components.Inara"
 ]
 
 # Cog loading
@@ -32,7 +34,7 @@ async def on_ready():
 
 @bot.before_invoke
 async def before_invoke(ctx):
-    Logging.info(f'''------------------------------\nInvoked {ctx.command} in {ctx.guild.name} by {ctx.author.name}\nArgs: {ctx.args}''')
+    Logging.info(f'''------------------------------\n   Invoked {ctx.command} in {ctx.guild.name} by {ctx.author.name}\n    Args: {ctx.args}''')
 
 @bot.after_invoke
 async def after_invoke(ctx):
