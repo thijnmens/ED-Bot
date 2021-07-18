@@ -1,7 +1,23 @@
 import requests, re
-from discord.ext import commands
-from discord import Embed
+from random import choice, getrandbits
+from discord.ext import commands, tasks
+from discord import Game, Activity, ActivityType, Embed
+from Components.Logging import *
 
+play_status_list = [
+    "Elite Dangerous",
+	"Nekopara Vol 1",
+	"Nekopara Vol 2",
+	"Nekopara Vol 3",
+	"Nekopara Vol 4"
+]
+
+watch_status_list = [
+    "hentai",
+    "Nekopara",
+    "notmyname stream hentai",
+    "You."
+]
 
 class BotInfo(commands.Cog):
 	def __init__(self, bot):
@@ -26,6 +42,22 @@ class BotInfo(commands.Cog):
 		embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/865588554603298816/c124b4a1595f81d545e5431554ee4af3.png")
 		embed.set_footer(text='This code is ruined by ThiJNmEnS#6669')
 		await ctx.send(embed=embed)
+
+	@tasks.loop(hours=1)
+	async def status(self):
+		await self.bot.wait_until_ready()
+		if getrandbits(1) == 1:
+			value = choice(play_status_list)
+			await self.bot.change_presence(activity=Game(name=value))
+			Logging.info(f"Status set to: {value}")
+		else:
+			value = choice(watch_status_list)
+			await self.bot.change_presence(activity=Activity(name=value, type=ActivityType.watching))
+			Logging.info(f"Status set to: {value}")
+
+	@commands.Cog.listener()
+	async def on_ready(self):
+		self.status.start()
 
 def setup(bot):
     bot.add_cog(BotInfo(bot))

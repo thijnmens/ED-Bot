@@ -17,7 +17,8 @@ bot = commands.Bot(command_prefix='>', help_command=None, intents=intents, case_
 initial_cogs = [
     "jishaku",
     "Components.Inara",
-    "Components.BotInfo"
+    "Components.BotInfo",
+    "Components.ErrorHandler"
 ]
 
 # Cog loading
