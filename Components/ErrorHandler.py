@@ -2,7 +2,7 @@ from datetime import timedelta
 from math import ceil
 from discord import Embed, Colour
 from discord.ext import commands
-from Components.Logging import *
+from Components.Logging import Logging
 
 class ErrorHandler(commands.Cog):
     def __init__(self, bot):
@@ -44,10 +44,11 @@ class ErrorHandler(commands.Cog):
             Logging.info('NSFWChannelRequired hander ran\n----------')
             await ctx.reply('Pervert spotted, initializing the anti-pervert defense systems``')
         
-        elif isinstance(error, commands):
+        elif isinstance(error, Exception):
             Logging.error(error)
+            #zerotwomad = get(ctx.message.server.emojis, name="zerotwomad")
             await ctx.send(embed=Embed(
-                title='Uh oh. Something bad happened <a:zerotwomad:866037939258785843>',
+                title=f'Uh oh. Something bad happened <:zerotwomad:866037693841408000>',
                 description=f'An unhandled error occured.\nIf this keeps occuring open an [issue report](https://github.com/thijnmens/RogueBot/issues) or go pester that guy who \'coded\' this mess.\n\n```{error}```',
                 colour=Colour.red()
             ))

@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from os import getcwd, getenv
 from discord import Intents, AllowedMentions
 from discord.ext import commands
-from Components.Logging import *
+from Components.Logging import Logging
 
 # Load Env Vars
 cwd = getcwd()

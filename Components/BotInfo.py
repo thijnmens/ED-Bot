@@ -2,7 +2,7 @@ import requests, re
 from random import choice, getrandbits
 from discord.ext import commands, tasks
 from discord import Game, Activity, ActivityType, Embed
-from Components.Logging import *
+from Components.Logging import Logging
 
 play_status_list = [
     "Elite Dangerous",
