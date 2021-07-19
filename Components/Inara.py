@@ -28,7 +28,7 @@ class Inara(commands.Cog):
             'events': [
                 {
                     'eventName': 'getCommanderProfile',
-                    'eventTimestamp': str(datetime.datetime.now().strftime('%Y-%m-%d' + 'T' + '%H:%M:%S' + 'Z')),
+                    'eventTimestamp': str(datetime.datetime.now()),
                     'eventData': {
                         'searchName': cmdr_name
                     }

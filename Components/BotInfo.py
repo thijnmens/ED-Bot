@@ -1,8 +1,11 @@
-import requests, re
+import requests, re, json, datetime
 from random import choice, getrandbits
 from discord.ext import commands, tasks
 from discord import Game, Activity, ActivityType, Embed
 from Components.Logging import Logging
+from firebase_admin import firestore
+
+db = firestore.client()
 
 play_status_list = [
     "Elite Dangerous",
@@ -54,10 +57,21 @@ class BotInfo(commands.Cog):
 			value = choice(watch_status_list)
 			await self.bot.change_presence(activity=Activity(name=value, type=ActivityType.watching))
 			Logging.info(f"Status set to: {value}")
+	
+	@tasks.loop(minutes=1)
+	async def reminders(self):
+		await self.bot.wait_until_ready()
+		data = db.collection('Reminders').document('Reminders').get().get('Reminders')
+		now = datetime.datetime.now().strftime('%d-%m-%Y-%H-%M')
+		for reminder in data:
+			if (str(reminder['time']) == str(now)):
+				Logging.info(f"Reminding {reminder['mention']} about {reminder['title']}")
+				await self.bot.get_channel(866711571120390144).send(f"<@{reminder['mention']}> Reminder: `{reminder['title']}`")
 
 	@commands.Cog.listener()
 	async def on_ready(self):
 		self.status.start()
+		self.reminders.start()
 
 def setup(bot):
     bot.add_cog(BotInfo(bot))
