@@ -62,7 +62,7 @@ class BotInfo(commands.Cog):
 	async def reminders(self):
 		await self.bot.wait_until_ready()
 		data = db.collection('Reminders').document('Reminders').get().get('Reminders')
-		now = datetime.datetime.now().strftime('%d-%m-%Y-%H-%M')
+		now = datetime.datetime.now(tz=datetime.timezone.utc).strftime('%d-%m-%Y-%H-%M')
 		for reminder in data:
 			if (str(reminder['time']) == str(now)):
 				Logging.info(f"Reminding {reminder['mention']} about {reminder['title']}")
