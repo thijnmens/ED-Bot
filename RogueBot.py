@@ -35,7 +35,8 @@ initial_cogs = [
     "Components.Inara",
     "Components.BotInfo",
     "Components.ErrorHandler",
-    "Components.Random"
+    "Components.Random",
+    "Components.Loops"
 ]
 
 # Cog loading

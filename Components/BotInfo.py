@@ -1,7 +1,6 @@
-import requests, re, json, datetime
-from random import choice, getrandbits
-from discord.ext import commands, tasks
-from discord import Game, Activity, ActivityType, Embed
+import requests, re
+from discord.ext import commands
+from discord import Embed
 from Components.Logging import Logging
 from firebase_admin import firestore
 
@@ -45,33 +44,6 @@ class BotInfo(commands.Cog):
 		embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/865588554603298816/c124b4a1595f81d545e5431554ee4af3.png")
 		embed.set_footer(text='This code is ruined by ThiJNmEnS#6669')
 		await ctx.send(embed=embed)
-
-	@tasks.loop(hours=1)
-	async def status(self):
-		await self.bot.wait_until_ready()
-		if getrandbits(1) == 1:
-			value = choice(play_status_list)
-			await self.bot.change_presence(activity=Game(name=value))
-			Logging.info(f"Status set to: {value}")
-		else:
-			value = choice(watch_status_list)
-			await self.bot.change_presence(activity=Activity(name=value, type=ActivityType.watching))
-			Logging.info(f"Status set to: {value}")
-	
-	@tasks.loop(minutes=1)
-	async def reminders(self):
-		await self.bot.wait_until_ready()
-		data = db.collection('Reminders').document('Reminders').get().get('Reminders')
-		now = datetime.datetime.now(tz=datetime.timezone.utc).strftime('%d-%m-%Y-%H-%M')
-		for reminder in data:
-			if (str(reminder['time']) == str(now)):
-				Logging.info(f"Reminding {reminder['mention']} about {reminder['title']}")
-				await self.bot.get_channel(866711571120390144).send(f"<@{reminder['mention']}> Reminder: `{reminder['title']}`")
-
-	@commands.Cog.listener()
-	async def on_ready(self):
-		self.status.start()
-		self.reminders.start()
 
 def setup(bot):
     bot.add_cog(BotInfo(bot))
