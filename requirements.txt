@@ -1,7 +1,6 @@
 aiohttp
 astunparse
 async-timeout
-asyncio
 attrs
 beautifulsoup4
 braceexpand
@@ -45,7 +44,6 @@ proto-plus
 protobuf
 pyasn1
 pyasn1-modules
-pychal
 pycparser
 pyparsing
 python-dotenv
